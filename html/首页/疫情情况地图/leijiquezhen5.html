@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Map</title>
+    <!-- 使用说明：1.直接链接该页面即可、该页面为疫情每日新增确诊病例数地图 -->
+    <!-- 数据说明：1.该数据放于data/csv/ncov_data文件下面 -->
+    <!-- 编写人员：夏恩 -->
+    <!-- <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+     
+        .map {
+            width: 800px;
+            height: 380px;
+            background-color: white;
+            margin: 0 auto;
+        }
+        
+        .map .chart {
+            width: 700px;
+            height: 700px;
+        }
+     
+    </style> -->
+
+</head>
+
+<body>
+    <h2>
+        <input type="text" name="123" value="2020-2-5" style="color:aquamarine" class="first">
+        <input type="text" name="123" value="2020-3-5" style="color:aquamarine" class="second">
+        <button class="btn" type="button">查询</button>
+    </h2>
+    <div class="yiqingmap">
+
+        <div class="beforechart"></div>
+        <div class="chart" style="width: 700px; height: 700px;"></div>
+        <div class="map-footer"></div>
+    </div>
+    <script src="../../../js/jquery.min.js"></script>
+    <script src="../../../js/echarts.min.js"></script>
+    <!--必须先引入china.js这个文件，因为中国地图需要-->
+    <script src="../../../js/china.js"></script>
+    <script src="../../../js/疫情情况地图/beforequery5.js"></script>
+    <script src="../../../js/疫情情况地图/query5.js"></script>
+
+
+
+
+
+
+</body>
+
+</html>

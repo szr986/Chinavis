@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Map</title>
+    <!-- 使用说明：1.直接链接该页面即可、该页面为疫情每日新增确诊病例数地图 -->
+    <!-- 数据说明：1.该数据放于data/csv/ncov_data文件下面 -->
+    <!-- 编写人员：夏恩 -->
+    <!-- <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        .qianximap {
+            width: 600px;
+            height: 380px;
+            background-color: white;
+            margin: 0 auto;
+        }
+
+        .qianximap .chart {
+            width: 700px;
+            height: 700px;
+        }
+    </style> -->
+
+</head>
+
+<body>
+    <!-- <script src="../data/js/province/北京市.js"></script> -->
+  
+    <div class="qianchumap" style="display: inline-block;">
+        <select name="" id="" class="province">
+            <option value="">北京市</option>
+            <option value="">重庆市</option>
+            <option value="">上海市</option>
+            <option value="">天津市</option>
+            <option value="">河北省</option>
+            <option value="">山东省</option>
+            <option value="">辽宁省</option>
+            <option value="">黑龙江省</option>
+            <option value="">甘肃省</option>
+            <option value="">吉林省</option>
+            <option value="">青海省</option>
+            <option value="">河南省</option>
+            <option value="">江苏省</option>
+            <option value="">湖北省</option>
+            <option value="">湖南省</option>
+            <option value="">浙江省</option>
+            <option value="">江西省</option>
+            <option value="">广东省</option>
+            <option value="">云南省</option>
+            <option value="">福建省</option>
+            <option value="">台湾省</option>
+            <option value="">山西省</option>
+            <option value="">海南省</option>
+            <option value="">四川省</option>
+            <option value="">陕西省</option>
+            <option value="">贵州省</option>
+            <option value="">安徽省</option>
+            <option value="">内蒙古自治区</option>
+            <option value="">广西壮族自治区</option>
+            <option value="">西藏自治区</option>
+            <option value="">新疆维吾尔自治区</option>
+            <option value="">宁夏回族自治区</option>
+            <option value="">澳门特别行政区</option>
+            <option value="">香港特别行政区</option>
+        </select>
+    
+        <div class="chart" style=" width: 700px; height: 700px;"> </div>
+        <div class="map-footer"></div>
+    </div>
+
+    </div>
+   <script src="../../js/jquery.min.js"></script>
+    <script src="../../js/echarts.min.js"></script>
+    <!--必须先引入china.js这个文件，因为中国地图需要-->
+    <script src="../../js/china.js"></script>
+    <script src="../../js/jquery.min.js"></script>
+    <script src="../../js/迁入迁出地图/beforeqianchu.js"></script>
+    <script src="../../js/迁入迁出地图/qianchu.js"></script>
+
+
+
+
+</body>
+
+</html>

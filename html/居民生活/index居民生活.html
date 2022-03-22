@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title>COVID-19-CDUT-Vis</title>
+    <link href="https://cdn.jsdelivr.net/npm/layui-src@2.4.5/dist/css/layui.css" rel="stylesheet" />
+    <link href="http://www.magicalcoder.com/magicaldrag/assets/drag/ui/magicalcoder/1.1.0/magicalcoder.css"
+        rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/json3/3.3.3/json3.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/4.6.0/echarts.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/4.6.0/extension/dataTool.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/layui-src@2.4.5/dist/layui.all.js"></script>
+    <script src="http://www.magicalcoder.com/assets/js/common.js"></script>
+    <script src="http://www.magicalcoder.com/magicaldrag/assets/drag/ui/magicalcoder/1.1.0/magicalcoder.js"></script>
+    <script src="../../js/echarts.js"></script>
+    <script src="../../js/jquery.js"></script>
+    <script src="../../data/js/hospital_help_location_Value.js"></script>
+    <script src="../../js/hospital_help_map.js" type="text/javascript">  </script>
+    <!-- 使用百度地图需要自己申请接口ak -->
+    <script src="http://api.map.baidu.com/api?v=2.0&ak=5whgGhtdKspz9tn8nPRn5DWY3WowcdCA"></script>
+    <!-- 需要引用bmap包 -->
+    <script src="../../js/bmap.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: 0;
+        }
+
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+        }
+
+        .mui {
+            background: url('../images/bg.jpg') bottom center #efeff4;
+            background-size: 100% 100%;
+            width: 100%;
+            height: 100%;
+        }
+
+        .map .map1 {
+            width: 19.425rem;
+            height: 19.425rem;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: url(../images/map.png);
+            background-size: 100% 100%;
+            opacity: 0.3;
+        }
+
+        .map .map2 {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 23.1125rem;
+            height: 23.1125rem;
+            background: url(../images/lbx.png);
+            animation: rotate1 15s linear infinite;
+            opacity: 0.6;
+            background-size: 100% 100%;
+        }
+
+        .map .map3 {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 21.225rem;
+            height: 21.225rem;
+            background: url(../images/jt.png);
+            animation: rotate2 10s linear infinite;
+            opacity: 0.6;
+            background-size: 100% 100%;
+        }
+
+        .title1 {
+            font-size: 2.475rem;
+            color: #fff;
+            text-align: center;
+            line-height: 5rem;
+        }
+
+        .panel {
+            position: relative;
+            height: 3.875rem;
+            border: 1px solid rgba(25, 186, 139, 0.17);
+            background: rgba(255, 255, 255, 0.04) url(../images/line.png);
+            padding: 0 0.1875rem 0.5rem;
+            margin-top: 0.1875rem;
+            margin-bottom: 0.1875rem;
+            margin-left: 1.1875rem;
+            margin-right: 0.1875rem;
+        }
+
+        .panel::before {
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            content: "";
+            width: 10px;
+            height: 10px;
+            border-top: 2px solid #02a6b5;
+            border-left: 2px solid #02a6b5;
+        }
+
+        .panel::after {
+            position: absolute;
+            top: 0px;
+            right: 0px;
+            content: "";
+            width: 10px;
+            height: 10px;
+            border-top: 2px solid #02a6b5;
+            border-right: 2px solid #02a6b5;
+        }
+
+        .panel .panel-footer::before {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            content: "";
+            width: 10px;
+            height: 10px;
+            border-bottom: 2px solid #02a6b5;
+            border-left: 2px solid #02a6b5;
+        }
+
+        .panel .panel-footer::after {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            content: "";
+            width: 10px;
+            height: 10px;
+            border-bottom: 2px solid #02a6b5;
+            border-right: 2px solid #02a6b5;
+        }
+
+        .layui-nav * {
+            font-size: 18px;
+        }
+
+        .color_style {
+            color: orange;
+        }
+
+
+        @keyframes rotate1 {
+            form {
+                transform: translate(-50%, -50%) rotate(0deg);
+            }
+
+            to {
+                transform: translate(-50%, -50%) rotate(360deg);
+            }
+        }
+
+        @keyframes rotate2 {
+            form {
+                transform: translate(-50%, -50%) rotate(0deg);
+            }
+
+            to {
+                transform: translate(-50%, -50%) rotate(-360deg);
+            }
+        }
+    </style>
+</head>
+
+<body class="layui-form mui" style="overflow:-Scroll; overflow-x:hidden">
+    <div class="map">
+        <div class="map1"></div>
+        <div class="map2"></div>
+        <div class="map3"></div>
+        <div class="chart"></div>
+    </div>
+    <div class="title1" style="text-align: center;height: 100px;background: url(../images/head_bg.png) center; ">
+        COVID-19-CDUT-Vis</div>
+    <ul class="layui-nav" style="  background: rgba(255, 255, 255, 0.04);" lay-filter="">
+        <!-- 导航栏 -->
+        <li class="layui-nav-item"><a href="../index_首页.html">首页</a></li>
+        <li class="layui-nav-item"><a href="../index_迁入.html">迁入/迁出</a></li>
+        <li class="layui-nav-item"><a href="../企业/index_qiye.html">企业</a></li>
+        <li class="layui-nav-item"><a href="../旅游出行/index旅游出行.html">旅游出行</a></li>
+        <li class="layui-nav-item layui-this"><a href="index居民生活.html">居民生活</a></li>
+        <li class="layui-nav-item"><a href="../商品消费/index商品消费.html">商品消费</a></li>
+        <li class="layui-nav-item"><a href="../在线教育/index在线教育.html">在线教育</a></li>
+        <li class="layui-nav-item"><a href="../在线医疗/index在线医疗.html">在线医疗</a></li>
+    </ul>
+
+
+    <div class="layui-row life" style="height: 980px;">
+        <!-- 进度条 -->
+        <!-- <div class="layui-progress layui-progress-big" lay-showPercent="yes" style="width: 97.5%;  margin-left: 1%;">
+            <div class="layui-progress-bar layui-bg-green" lay-percent="10%"></div>
+        </div> -->
+        <div id="life_need" class="layui-col-md6 panel" style="width: 48%; height: 500px;">
+            <script src="../../js/life_need_line.js" type="text/javascript"></script>
+            <div class="panel-footer"></div>
+        </div>
+
+        <div class="layui-col-md6 panel bar" style="width: 48%; height: 500px;">
+            <script src="../../js/居民生活.js"></script>
+            <div class="panel-footer"></div>
+        </div>
+        <!-- <div class="layui-progress layui-progress-big" lay-showPercent="yes" style="width: 97.5%;  margin-left: 1%;">
+            <div class="layui-progress-bar layui-bg-green" lay-percent="10%"></div>
+        </div> -->
+        <div class="layui-col-md6 layui-col-lg12" style="width: 100%; height: 911px;">
+            <div class="layui-row">
+                <div id="SX_kanzhong" class="layui-col-md6 layui-col-lg4 panel" style="width: 31.5%; height: 500px;">
+                    <script src="../../data/js/生鲜行业看中因素.js"></script>
+                    <script src="../居民生活/生鲜行业看中因素.js"></script>
+                    <div class="panel-footer"></div>
+                </div>
+                <div id="sx" class="layui-col-md6 layui-col-lg4 panel" style="width: 31.5%; height: 500px;">
+                    <script src="../../js/生鲜.js"></script>
+                    <div class="panel-footer"></div>
+                </div>
+                <div id="shengxian" class="layui-col-md6 layui-col-lg4 panel" style="width: 31.5%; height: 500px;">
+                    <script src="../../data/js/生鲜电商行业.js"></script>
+                    <script src="../居民生活/生鲜电商行业.js"></script>
+                    <div class="panel-footer"></div>
+                </div>
+            </div>
+            <div class="layui-row" style="height: 273px;">
+                <div class="layui-col-md6" style="width: 67.9185%;">饮食</div>
+                <div id="meishi" class="layui-col-md6 panel" style="width: 48%; height: 500px;">
+                    <script src="../../data/js/美食_hangye.js"></script>
+                    <script src="../居民生活/美食行业.js"></script>
+                    <div class="panel-footer"></div>
+                </div>
+                <div id="caipua_app" class="layui-col-md6 panel" style="width: 48%; height: 500px;">
+                    <script src="../居民生活/菜谱类app增长_3dbar.js"></script>
+                    <div class="panel-footer"></div>
+                </div>
+                <div class="panel waimai"
+                    style="height: 500px; width: 47.5%; margin-top: 10px; position: relative; float: left; background-color:rgba(255, 255, 255, 0.04);">
+                    <h2>
+                        <a class="color_style" href="javascript:;" style="font-size: 20px; margin-left: 10px; ">整体</a>
+                        <a href="javascript:;" style="color: #fff; font-size: 20px; margin-left: 10px; ">省份</a>
+                        <a href="javascript:;" style="color: #fff; font-size: 20px; margin-left: 10px; ">线级城市</a>
+                        <a href="javascript:;" style="color: #fff; font-size: 20px; margin-left: 10px; ">性别</a>
+                        <a href="javascript:;" style="color: #fff; font-size: 20px; margin-left: 10px; ">年龄</a>
+                        <a href="javascript:;" style="color: #fff; font-size: 20px; margin-left: 10px; ">家庭月收入</a>
+                        <a href="javascript:;" style="color: #fff; font-size: 20px; margin-left: 10px; ">婚姻</a>
+                    </h2>
+                    <div id="waimaixiaofei" style="width: 98%; height: 450px;"></div>
+                    <script src="../../js/新冠疫情之下中国居民点外卖消费趋势/新冠疫情之下中国居民点外卖消费趋势.js"></script>
+                    <div class="panel-footer"></div>
+                </div>
+                <div class="panel waichu"
+                    style="height: 500px; width: 47.5%; margin-top: 10px; position: relative; float: left; background-color:rgba(255, 255, 255, 0.04);">
+                    <h2>
+                        <a class="color_style" href="javascript:;" style="font-size: 20px; margin-left: 10px; ">整体</a>
+                        <a href="javascript:;" style="color: #fff; font-size: 20px; margin-left: 10px; ">省份</a>
+                        <a href="javascript:;" style="color: #fff; font-size: 20px; margin-left: 10px; ">线级城市</a>
+                        <a href="javascript:;" style="color: #fff; font-size: 20px; margin-left: 10px; ">性别</a>
+                        <a href="javascript:;" style="color: #fff; font-size: 20px; margin-left: 10px; ">年龄</a>
+                        <a href="javascript:;" style="color: #fff; font-size: 20px; margin-left: 10px; ">家庭月收入</a>
+                        <a href="javascript:;" style="color: #fff; font-size: 20px; margin-left: 10px; ">婚姻</a>
+                    </h2>
+                    <div id="waichu" style="width: 98%; height: 450px;"></div>
+                    <script src="../../js/新冠疫情之下中国居民外出就餐消费趋势/新冠疫情之下中国居民外出就餐消费趋势.js"></script>
+                    <div class="panel-footer"></div>
+                </div>
+                <div id="appshiyongcishu" class="layui-col-md6 panel" style="width: 31.5%; height: 500px;">
+                    <script src="../../js/外卖餐饮APP用户周使用次数.js" type="text/javascript"></script>
+                    <div class="panel-footer"></div>
+                </div>
+                <div id="waimai" class="layui-col-md6 panel" style="width: 31.5%; height: 500px;">
+                    <script src="../../data/js/外卖行业.js"></script>
+                    <script src="../居民生活/外卖行业.js"></script>
+                    <div class="panel-footer"></div>
+                </div>
+                <div id="elma" class="layui-col-md6 panel" style="width: 31.5%; height: 500px;">
+                    <script src="../../data/js/饿了吗.js"></script>
+                    <script src="../居民生活/饿了吗.js"></script>
+                    <div class="panel-footer"></div>
+                </div>
+            </div>
+            <div class="layui-row" style="height: 2030px;">
+                <div class="layui-col-md6" style="width: 61.9099%;">阅读</div>
+                <div id="yueduyuanyin" class="layui-col-md6 panel" style="width: 48%; height: 500px;">
+                    <script src="../../js/疫情期间用户选择阅读原因.js" type="text/javascript"></script>
+                    <div class="panel-footer"></div>
+                </div>
+                <div id="yuedukanfa" class="layui-col-md6 panel" style="width: 48%; height: 500px;">
+                    <script src="../../js/疫情结束后用户对阅读看法.js" type="text/javascript"></script>
+                    <div class="panel-footer"></div>
+                </div>
+                <div id="zhangfu" class="layui-col-md6 panel" style="height: 1008px; width: 48%;">
+                    <script src="../居民生活/在线媒体APP环比涨幅.js"></script>
+                    <div class="panel-footer"></div>
+                </div>
+                <div id="shipingfangshi" class="layui-col-md6 panel" style="width: 48%; height: 500px;">
+                    <script src="../../js/疫情期间用户观看视屏方式.js" type="text/javascript"></script>
+                    <div class="panel-footer"></div>
+                </div>
+                <div id="shipingleixing" class="layui-col-md6 panel" style="height: 500px; width: 48%;">
+                    <script src="../../js/疫情期间用户主要观看视屏类型.js" type="text/javascript"></script>
+                    <div class="panel-footer"></div>
+                </div>
+
+                <div id="" class="layui-col-md6 panel" style="height: 600px; width: 97.5%;">
+                    <h2 class="bili" style="background-color:rgba(255, 255, 255, 0.04);">
+                        <a class="color_style" href="javascript:;" style="font-size: 20px; margin-left: 10px; ">播放量</a>
+                        <a href="javascript:;" style="color: #fff; font-size: 20px; margin-left: 10px; ">点赞数</a>
+                        <a href="javascript:;" style="color: #fff; font-size: 20px; margin-left: 10px; ">硬币数</a>
+                        <a href="javascript:;" style="color: #fff; font-size: 20px; margin-left: 10px; ">收藏数</a>
+                        <a href="javascript:;" style="color: #fff; font-size: 20px; margin-left: 10px; ">评论数</a>
+                    </h2>
+                    <div id="bilibili" style="height: 550px;"></div>
+                    <script src="../../js/jquery.js"></script>
+                    <script src="../在线视频/1.js"></script>
+                    <script src="../../js/bilibili_highplay_graph.js"></script>
+                    <div class="panel-footer"></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- <div class="layui-progress layui-progress-big" lay-showPercent="yes" style="width: 97.5%;  margin-left: 1%;">
+        <div class="layui-progress-bar layui-bg-green" lay-percent="100%"></div>
+    </div> -->
+
+    <script>
+        //以下脚本为标签属性转换成layui组件的还原过程
+        //调试:打开浏览器控制台(F12),在代码中某行增加 debugger 即可调试
+        var $ = layui.jquery, laytpl = layui.laytpl, laydate = layui.laydate, form = layui.form, layedit = layui.layedit, slider = layui.slider, element = layui.element, colorpicker = layui.colorpicker, upload = layui.upload, rate = layui.rate, carousel = layui.carousel, table = layui.table, flow = layui.flow;
+        var magicalDragLayuiUtil = {
+            rebuildLayUiControls: function () {
+                var _t = this;
+                //日期
+                $(".magicalcoder-laydate").each(function (idx, item) {
+                    laydate.render(_t.iteratorAttr({
+                        elem: item
+                    }, item));
+                })
+                //富文本
+                $(".magicalcoder-layedit").each(function (idx, item) {
+                    var mcDataId = $(item).attr("id");
+                    if (mcDataId) {
+                        layedit.build(mcDataId, {
+                            height: 300
+                        });
+                    }
+                })
+                //外键
+                $(".magicalcoder-foreign-select2").each(function (idx, item) {
+                    var mcDataId = $(item).attr("id");
+                    if (mcDataId) {
+                        $("#" + mcDataId).select2({
+                            allowClear: true,
+                            width: "150px",
+                            delay: 500,
+                        });
+                    }
+                })
+                //颜色选择器
+                $(".magicalcoder-color-picker").each(function (idx, item) {
+                    colorpicker.render(_t.iteratorAttr({
+                        elem: $(item)
+                    }, item));
+                })
+                //上传组件
+                $(".magicalcoder-layupload").each(function (idx, item) {
+                    upload.render(_t.iteratorAttr({
+                        elem: $(item)
+                    }, item));
+                })
+                //滑块
+                $(".magicalcoder-slider").each(function (idx, item) {
+                    slider.render(_t.iteratorAttr({
+                        elem: $(item)
+                    }, item));
+                })
+                //评分
+                $(".magicalcoder-rate").each(function (idx, item) {
+                    rate.render(_t.iteratorAttr({
+                        elem: $(item)
+                    }, item));
+                })
+                //轮播
+                $(".layui-carousel").each(function (idx, item) {
+                    carousel.render(_t.iteratorAttr({
+                        elem: $(item)
+                    }, item));
+                })
+                //流加载
+                $(".magicalcoder-flow").each(function (idx, item) {
+                    flow.load(_t.iteratorAttr({
+                        elem: $(item)
+                    }, item));
+                })
+                //代码
+                $(".magicalcoder-code").each(function (idx, item) {
+                    layui.code(_t.iteratorAttr({
+                        elem: $(item)
+                    }, item));
+                })
+                //弹窗
+                $(".magicalcoder-layer").each(function (idx, item) {
+                    //先隐藏起来
+                    $(this).next().hide();
+                    $(this).click(function () {
+                        var config = _t.iteratorAttr({
+                            elem: $(item)
+                        }, item);
+                        var type = config.type;
+                        if (type + '' == 1) {
+                            config.content = $(this).next();
+                            if (!config.content.hasClass("magicalcoder-layer-content")) {
+                                config.content = config.content.find(".magicalcoder-layer-content")
+                            }
+                        }
+                        if (config.btn) {
+                            config.btn = config.btn.split(",")
+                        }
+                        if (config.area) {
+                            config.area = config.area.split(",")
+                        }
+                        layer.open(config)
+                    })
+                })
+                //动态表格 我们单独封装了layui-table的初始化方式 至于数据排序 返回格式 等操作请根据你的具体环境自行封装
+                $(".magicalcoder-table").each(function (idx,
+                    item) {
+                    var cols = [];
+                    //读取列配置
+                    $(this).find(".magicalcoder-table-th").each(function (i, th) {
+                        cols.push(_t.iteratorAttr({
+                            title: $(this).text()
+                        }, th));
+                    })
+                    var tableConfig = _t.iteratorAttr({
+                        elem: $(item),
+                        cols: [cols]
+                    },
+                        item);
+                    //初始化表格 至于返回的数据格式 您可以根据自己的系统自行改造 这里仅做一个示例 参考js\\data\\list.json
+                    table.render(tableConfig);
+                })
+                //部分组件初始化
+                element.init();
+                //表单初始化
+                form.render();
+            },
+            //将标签上的属性 转换成layui函数初始化时的参数名:参数值
+            iteratorAttr: function (renderConfig, dom) {
+                var attrs = dom.attributes;
+                for (var i = 0; i < attrs.length; i++) {
+                    var attr = attrs[i];
+                    var name = attr.name;
+                    var value = attr.value;
+                    if (name.indexOf("mc-") === 0) {
+                        name = name.replace("mc-attr-", '');
+                        name = name.replace("mc-event-", '');
+                        if (name.indexOf('str-') === 0) {
+                            name = name.replace('str-', '');
+                        } else if (name.indexOf('bool-') === 0) {
+                            name = name.replace('bool-', '');
+                            value == 'true' || value === '' ? value = true : value = value;
+                            value == 'false' ? value = false : value = value;
+                        } else if (name.indexOf('num-') === 0) {
+                            name = name.replace('num-', '');
+                            if (value !== '' && !isNaN(value)) {
+                                value = parseFloat(value);
+                            }
+                        } else if (name.indexOf('json-') === 0) {
+                            name = name.replace('json-', '');
+                            if (value !== '') {
+                                value = JSON.parse(value);
+                            }
+                        }
+                        renderConfig[this.htmlAttrNameToTuoFeng(name)] = value;
+                    }
+                }
+                return renderConfig;
+            },
+            //user-name -> userName html上的标签名转换成驼峰名称
+            htmlAttrNameToTuoFeng: function (name) {
+                var arr = name.split("-");
+                var newArr = []
+                for (var i = 0; i < arr.length; i++) {
+                    if (i != 0) {
+                        if (arr[i] != '') {
+                            newArr.push(this.firstCharToUpLower(arr[i]));
+                        }
+                    } else {
+                        newArr.push(arr[i]);
+                    }
+                }
+                return newArr.join('');
+            },
+            //首字母大写
+            firstCharToUpLower: function (name) {
+                var arr = name.split("");
+                arr[0] = arr[0].toUpperCase();
+                return arr.join('');
+            },
+        }
+        magicalDragLayuiUtil.rebuildLayUiControls();
+        //echarts自动初始化
+        new McECharts().render();
+
+    </script>
+</body>
+
+</html>

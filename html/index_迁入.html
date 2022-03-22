@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<!--代码由www.magicalcoder.com可视化布局器拖拽生成 资源请自行下载到本地-->
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title>COVID-19-CDUT-Vis</title>
+    <link href="https://cdn.jsdelivr.net/npm/layui-src@2.4.5/dist/css/layui.css" rel="stylesheet" />
+    <link href="http://www.magicalcoder.com/magicaldrag/assets/drag/ui/magicalcoder/1.1.0/magicalcoder.css"
+        rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/json3/3.3.3/json3.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/4.6.0/echarts.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/4.6.0/extension/dataTool.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/layui-src@2.4.5/dist/layui.all.js"></script>
+    <script src="http://www.magicalcoder.com/assets/js/common.js"></script>
+    <script src="https://oisanjavax.github.io/echarts-wordcloud/dist/echarts-wordcloud.min.js"></script>
+    <script src="http://www.magicalcoder.com/magicaldrag/assets/drag/ui/magicalcoder/1.1.0/magicalcoder.js"></script>
+    <style>
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .mui {
+            background: url('./images/bg.jpg') bottom center #efeff4;
+            background-size: 100% 100%;
+            width: 100%;
+            height: 100%;
+        }
+
+        .map .map1 {
+            width: 36rem;
+            height: 36rem;
+            position: absolute;
+            top: 64%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: url(./images/map.png);
+            background-size: 100% 100%;
+            opacity: 0.3;
+        }
+
+        .map .map2 {
+            position: absolute;
+            top: 64%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 42.444rem;
+            height: 42.444rem;
+            background: url(./images/lbx.png);
+            animation: rotate1 15s linear infinite;
+            opacity: 0.6;
+            background-size: 100% 100%;
+        }
+
+        .map .map3 {
+            position: absolute;
+            top: 64%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 39.366rem;
+            height: 39.366rem;
+            background: url(./images/jt.png);
+            animation: rotate2 10s linear infinite;
+            opacity: 0.6;
+            background-size: 100% 100%;
+        }
+
+
+        .title1 {
+            font-size: 2.475rem;
+            color: #fff;
+            text-align: center;
+            line-height: 5rem;
+        }
+
+        .panel {
+            position: relative;
+            height: 3.875rem;
+            border: 1px solid rgba(25, 186, 139, 0.17);
+            background: rgba(255, 255, 255, 0.04) url(./images/line.png);
+            padding: 0 0.1875rem 0.5rem;
+            margin-top: 0.1875rem;
+            margin-bottom: 0.1875rem;
+            margin-left: 1.1875rem;
+            margin-right: 0.1875rem;
+        }
+
+        .panel::before {
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            content: "";
+            width: 10px;
+            height: 10px;
+            border-top: 2px solid #02a6b5;
+            border-left: 2px solid #02a6b5;
+        }
+
+        .panel::after {
+            position: absolute;
+            top: 0px;
+            right: 0px;
+            content: "";
+            width: 10px;
+            height: 10px;
+            border-top: 2px solid #02a6b5;
+            border-right: 2px solid #02a6b5;
+        }
+
+        .panel .panel-footer::before {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            content: "";
+            width: 10px;
+            height: 10px;
+            border-bottom: 2px solid #02a6b5;
+            border-left: 2px solid #02a6b5;
+        }
+
+        .panel .panel-footer::after {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            content: "";
+            width: 10px;
+            height: 10px;
+            border-bottom: 2px solid #02a6b5;
+            border-right: 2px solid #02a6b5;
+        }
+
+        .layui-nav * {
+            font-size: 18px;
+        }
+
+        a {
+            color: #fff;
+        }
+
+        .layui-container li:hover a {
+            color: orange;
+        }
+
+
+        @keyframes rotate1 {
+            form {
+                transform: translate(-50%, -50%) rotate(0deg);
+            }
+
+            to {
+                transform: translate(-50%, -50%) rotate(360deg);
+            }
+        }
+
+        @keyframes rotate2 {
+            form {
+                transform: translate(-50%, -50%) rotate(0deg);
+            }
+
+            to {
+                transform: translate(-50%, -50%) rotate(-360deg);
+            }
+        }
+    </style>
+    <script src="../js/jquery.min.js"></script>
+    <script src="../js/china.js"></script>
+</head>
+
+<body class="layui-form mui" style="background-color:#eee;">
+    <div class="map">
+        <div class="map1"></div>
+        <div class="map2"></div>
+        <div class="map3"></div>
+        <div class="chart"></div>
+    </div>
+    <div class="title1" style="text-align: center;height: 100px;background: url(./images/head_bg.png)center;">
+        COVID-19-CDUT-Vis</div>
+    <ul class="layui-nav" style="  background: rgba(255, 255, 255, 0.04);" lay-filter="">
+        导航栏
+        <li class="layui-nav-item "><a href="./index_首页.html">首页</a></li>
+        <li class="layui-nav-item layui-this"><a href="">迁入/迁出</a></li>
+        <li class="layui-nav-item"><a href="./企业/index_qiye.html">企业</a></li>
+        <li class="layui-nav-item"><a href="./旅游出行/index旅游出行.html">旅游出行</a></li>
+        <li class="layui-nav-item"><a href="./居民生活/index居民生活.html">居民生活</a></li>
+        <li class="layui-nav-item"><a href="./商品消费/index商品消费.html">商品消费</a></li>
+        <li class="layui-nav-item"><a href="./在线教育/index在线教育.html">在线教育</a></li>
+        <li class="layui-nav-item"><a href="./在线医疗/index在线医疗.html">在线医疗</a></li>
+    </ul>
+
+    <div style="height: 1000px; margin-left: 10px; width: 1500px;">
+
+        <!-- 地图 -->
+        <div class="layui-col-md12 qianrumap panel" style="width: 1000px; height: 675px;z-index: 1;">
+            <!-- 上部 迁入，迁出选择 -->
+            <div class="layui-container" style="width: 600px;z-index: 100;">
+                <ul>
+
+                    <li id="map1"
+                        style="display: inline-block;font-size: 20px;width: 240px;background-color: rgba(255, 255, 255, 0.04);text-align: center;margin-bottom: 5px;height: 30px;">
+                        <a href="index_迁入.html" style="color: orange;">迁入</a></li>
+                    <li id="map2"
+                        style="display: inline-block;font-size: 20px;width: 240px;background-color:  rgba(255, 255, 255, 0.04);text-align: center;margin-bottom: 5px;height: 30px;margin-left: 60px;">
+                        <a href="index_迁出.html">迁出</a></li>
+                </ul>
+            </div>
+            <!-- 下部 -->
+            <div class="layui-inline" style="width: 400px; height: 200px;">
+                <div class="layui-row">
+                    <!-- 省份选择 -->
+                    <div class="layui-col-md6" style="width: 260px; height: 13px;z-index: 2;">
+                        <input type="text" name="123" value="2020-01-16"
+                            style="color:#000;height:30px;margin-bottom: 20px;font-size: 17px;width:200px"
+                            class="first">
+                        <button class="btn" type="button" style="height: 30px;width: 50px; position: left;">查询</button>
+                        <select name="" id="" class="province">
+                            <option value="0">武汉市</option>
+                            <option value="1">上海市</option>
+                            <option value="2">北京市</option>
+                            <option value="3">中山市</option>
+                            <option value="4">临汾市</option>
+                            <option value="5">临沂市</option>
+                            <option value="6">丹东市</option>
+                            <option value="7">丽水市</option>
+                            <option value="8">乌鲁木齐市</option>
+                            <option value="9">佛山市</option>
+                            <option value="10">保定市</option>
+                            <option value="11">兰州市</option>
+                            <option value="12">东莞市</option>
+                            <option value="13">南京市</option>
+                            <option value="14">南宁市</option>
+                            <option value="15">南昌市</option>
+                            <option value="16">南通市</option>
+                            <option value="17">厦门市</option>
+                            <option value="18">台州市</option>
+                            <option value="19">合肥市</option>
+                            <option value="20">呼和浩特市</option>
+                            <option value="21">咸阳市</option>
+                            <option value="22">哈尔滨市</option>
+                            <option value="23">唐山市
+                            </option>
+                            <option value="24"> 大同市
+                            </option>
+                            <option value="25"> 大连市
+                            </option>
+                            <option value="26"> 天津市
+                            </option>
+                            <option value="27"> 太原市
+                            </option>
+                            <option value="28"> 威海市
+                            </option>
+                            <option value="29"> 宁波市
+                            </option>
+                            <option value="30"> 宝鸡市
+                            </option>
+                            <option value="31"> 宿迁市
+                            </option>
+                            <option value="32"> 常州市
+                            </option>
+                            <option value="33"> 广州市
+                            </option>
+                            <option value="34">廊坊市
+                            </option>
+                            <option value="35">延安市</option>
+                            <option value="36">张家口市</option>
+                            <option value="37">徐州市
+                            </option>
+                            <option value="38"> 德州市
+                            </option>
+                            <option value="39"> 惠州市
+                            </option>
+                            <option value="40"> 成都市
+                            </option>
+                            <option value="41"> 扬州市
+                            </option>
+                            <option value="42"> 承德市
+                            </option>
+                            <option value="43"> 拉萨市
+                            </option>
+                            <option value="44"> 无锡市
+                            </option>
+                            <option value="45"> 昆明市
+                            </option>
+                            <option value="46"> 杭州市
+                            </option>
+                            <option value="47">枣庄市
+                            </option>
+                            <option value="48">嘉兴市</option>
+                            <option value="49">日照市</option>
+                            <option value="50">柳州市
+                            </option>
+                            <option value="51"> 株洲市
+                            </option>
+                            <option value="52"> 东营市
+                            </option>
+                            <option value="53"> 沈阳市
+                            </option>
+                            <option value="54"> 深圳市
+                            </option>
+                            <option value="55"> 温州市
+                            </option>
+                            <option value="56">湘潭市
+                            </option>
+                            <option value="57">潍坊市
+                            </option>
+                            <option value="58">烟台市
+                            </option>
+                            <option value="59"> 玉溪市
+                            </option>
+                            <option value="60"> 珠海市
+                            </option>
+                            <option value="61">石家庄市</option>
+                            <option value="62">秦皇岛市</option>
+                            <option value="63">绍兴市</option>
+                            <option value="64">衡水市</option>
+                            <option value="65">西宁市
+                            </option>
+                            <option value="66">西安市</option>
+                            <option value="67">重庆市</option>
+                            <option value="68">长沙市</option>
+                            <option value="69">长春市</option>
+                        </select>
+
+
+                    </div>
+
+                </div>
+                <div class="chart" style=" width: 900px; height: 600px;position: absolute;">
+                    <script src="../js/迁入迁出地图/beforeqianru.js"></script>
+                    <script src="../js/迁入迁出地图/qianru.js"></script>
+                </div>
+
+            </div>
+
+            <div class="panel-footer"></div>
+
+        </div>
+        <div id="迁入折线" class="panel" style="width: 475px; height: 327px;left:1000px;margin-top: 20px;">
+            <script src="../js/迁入折线图.js"></script>
+            <div class="panel-footer"></div>
+        </div>
+        <div id="迁出折线" class="panel" style="width: 475px; height: 327px;left:1000px">
+            <script src="../js/迁出折线图.js"></script>
+            <div class="panel-footer"></div>
+        </div>
+    </div>
+    <script>
+        //以下脚本为标签属性转换成layui组件的还原过程
+        //调试:打开浏览器控制台(F12),在代码中某行增加 debugger 即可调试
+        var $ = layui.jquery, laytpl = layui.laytpl, laydate = layui.laydate, form = layui.form, layedit = layui.layedit, slider = layui.slider, element = layui.element, colorpicker = layui.colorpicker, upload = layui.upload, rate = layui.rate, carousel = layui.carousel, table = layui.table, flow = layui.flow;
+        var magicalDragLayuiUtil = {
+            rebuildLayUiControls: function () {
+                var _t = this;
+                //日期
+                $(".magicalcoder-laydate").each(function (idx, item) {
+                    laydate.render(_t.iteratorAttr({
+                        elem: item
+                    }, item));
+                })
+                //富文本
+                $(".magicalcoder-layedit").each(function (idx, item) {
+                    var mcDataId = $(item).attr("id");
+                    if (mcDataId) {
+                        layedit.build(mcDataId, {
+                            height: 300
+                        });
+                    }
+                })
+                //外键
+                $(".magicalcoder-foreign-select2").each(function (idx, item) {
+                    var mcDataId = $(item).attr("id");
+                    if (mcDataId) {
+                        $("#" + mcDataId).select2({
+                            allowClear: true,
+                            width: "150px",
+                            delay: 500,
+                        });
+                    }
+                })
+                //颜色选择器
+                $(".magicalcoder-color-picker").each(function (idx, item) {
+                    colorpicker.render(_t.iteratorAttr({
+                        elem: $(item)
+                    }, item));
+                })
+                //上传组件
+                $(".magicalcoder-layupload").each(function (idx, item) {
+                    upload.render(_t.iteratorAttr({
+                        elem: $(item)
+                    }, item));
+                })
+                //滑块
+                $(".magicalcoder-slider").each(function (idx, item) {
+                    slider.render(_t.iteratorAttr({
+                        elem: $(item)
+                    }, item));
+                })
+                //评分
+                $(".magicalcoder-rate").each(function (idx, item) {
+                    rate.render(_t.iteratorAttr({
+                        elem: $(item)
+                    }, item));
+                })
+                //轮播
+                $(".layui-carousel").each(function (idx, item) {
+                    carousel.render(_t.iteratorAttr({
+                        elem: $(item)
+                    }, item));
+                })
+                //流加载
+                $(".magicalcoder-flow").each(function (idx, item) {
+                    flow.load(_t.iteratorAttr({
+                        elem: $(item)
+                    }, item));
+                })
+                //代码
+                $(".magicalcoder-code").each(function (idx, item) {
+                    layui.code(_t.iteratorAttr({
+                        elem: $(item)
+                    }, item));
+                })
+                //弹窗
+                $(".magicalcoder-layer").each(function (idx, item) {
+                    //先隐藏起来
+                    $(this).next().hide();
+                    $(this).click(function () {
+                        var config = _t.iteratorAttr({
+                            elem: $(item)
+                        }, item);
+                        var type = config.type;
+                        if (type + '' == 1) {
+                            config.content = $(this).next();
+                            if (!config.content.hasClass("magicalcoder-layer-content")) {
+                                config.content = config.content.find(".magicalcoder-layer-content")
+                            }
+                        }
+                        if (config.btn) {
+                            config.btn = config.btn.split(",")
+                        }
+                        if (config.area) {
+                            config.area = config.area.split(",")
+                        }
+                        layer.open(config)
+                    })
+                })
+                //动态表格 我们单独封装了layui-table的初始化方式 至于数据排序 返回格式 等操作请根据你的具体环境自行封装
+                $(".magicalcoder-table").each(function (idx,
+                    item) {
+                    var cols = [];
+                    //读取列配置
+                    $(this).find(".magicalcoder-table-th").each(function (i, th) {
+                        cols.push(_t.iteratorAttr({
+                            title: $(this).text()
+                        }, th));
+                    })
+                    var tableConfig = _t.iteratorAttr({
+                        elem: $(item),
+                        cols: [cols]
+                    },
+                        item);
+                    //初始化表格 至于返回的数据格式 您可以根据自己的系统自行改造 这里仅做一个示例 参考js\\data\\list.json
+                    table.render(tableConfig);
+                })
+                //部分组件初始化
+                element.init();
+                //表单初始化
+                form.render();
+            },
+            //将标签上的属性 转换成layui函数初始化时的参数名:参数值
+            iteratorAttr: function (renderConfig, dom) {
+                var attrs = dom.attributes;
+                for (var i = 0; i < attrs.length; i++) {
+                    var attr = attrs[i];
+                    var name = attr.name;
+                    var value = attr.value;
+                    if (name.indexOf("mc-") === 0) {
+                        name = name.replace("mc-attr-", '');
+                        name = name.replace("mc-event-", '');
+                        if (name.indexOf('str-') === 0) {
+                            name = name.replace('str-', '');
+                        } else if (name.indexOf('bool-') === 0) {
+                            name = name.replace('bool-', '');
+                            value == 'true' || value === '' ? value = true : value = value;
+                            value == 'false' ? value = false : value = value;
+                        } else if (name.indexOf('num-') === 0) {
+                            name = name.replace('num-', '');
+                            if (value !== '' && !isNaN(value)) {
+                                value = parseFloat(value);
+                            }
+                        } else if (name.indexOf('json-') === 0) {
+                            name = name.replace('json-', '');
+                            if (value !== '') {
+                                value = JSON.parse(value);
+                            }
+                        }
+                        renderConfig[this.htmlAttrNameToTuoFeng(name)] = value;
+                    }
+                }
+                return renderConfig;
+            },
+            //user-name -> userName html上的标签名转换成驼峰名称
+            htmlAttrNameToTuoFeng: function (name) {
+                var arr = name.split("-");
+                var newArr = []
+                for (var i = 0; i < arr.length; i++) {
+                    if (i != 0) {
+                        if (arr[i] != '') {
+                            newArr.push(this.firstCharToUpLower(arr[i]));
+                        }
+                    } else {
+                        newArr.push(arr[i]);
+                    }
+                }
+                return newArr.join('');
+            },
+            //首字母大写
+            firstCharToUpLower: function (name) {
+                var arr = name.split("");
+                arr[0] = arr[0].toUpperCase();
+                return arr.join('');
+            },
+        }
+        magicalDragLayuiUtil.rebuildLayUiControls();
+        //echarts自动初始化
+        new McECharts().render();
+
+    </script>
+    <script>
+        var ins21 = laydate.render({
+            elem: '.first',
+            min: '2020-01-16',
+            max: '2020-03-25',
+            ready: function () {
+                ins21.hint('日期可选值设定在 <br> 2020-01-16 到 2020-03-25');
+            }
+        });
+
+    </script>
+</body>
+
+</html>
